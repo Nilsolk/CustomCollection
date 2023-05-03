@@ -21,7 +21,7 @@ public class SimpleListImpl<T> implements SimpleList<T> {
         int size = count();
         if (size == array.length) {
             toNewList(1);
-            array[DEFAULT + 1] = item;
+            array[DEFAULT] = item;
         } else {
             array[size] = item;
         }
@@ -48,14 +48,14 @@ public class SimpleListImpl<T> implements SimpleList<T> {
     @Override
     public void insert(int index, T item) throws Exception {
         if (index < 0 || index > array.length) {
-            throw new IllegalArgumentException();
+            throw new Exception();
         } else array[index] = item;
     }
 
     @Override
     public void remove(int index) throws Exception {
         if (index < 0 || index > array.length) {
-            throw new IllegalArgumentException();
+            throw new Exception();
         } else if (array[index] == null) {
             throw new NullPointerException();
         }
@@ -82,11 +82,12 @@ public class SimpleListImpl<T> implements SimpleList<T> {
 
     @Override
     public void addAll(SimpleList<T> list) {
-        if (count() < list.size()) {
+        if (array.length - count() < list.size()) {
             toNewList(list.size());
         }
+        int count = count();
         for (int i = 0; i < list.size(); i++) {
-            array[count()] = list.get(i);
+            array[count + i] = list.get(i);
         }
     }
 
