@@ -5,6 +5,9 @@ import service.imlpementation.SimpleListImpl;
 import utils.GenComparator;
 import utils.LoggerUtils;
 
+import java.util.Arrays;
+
+
 public class Test {
     SimpleList<String> listString = new SimpleListImpl<>();
     SimpleList<Integer> listInt = new SimpleListImpl<>();
@@ -14,11 +17,10 @@ public class Test {
     public void testCollection() throws Exception {
 
         int[] values = {1, 8, 110, 1, 1, 4, 11, 5};
-        for (int value : values) listInt.add(value);
-
+        Arrays.stream(values).forEach(it -> listInt.add(it));
 
         String[] strings = {"A", "B", "C", "E", "D", "D", "F", "G"};
-        for (String value : strings) listString.add(value);
+        Arrays.stream(strings).forEach(it -> listString.add(it));
 
 
         logger.log(listInt, listString, "");
@@ -31,7 +33,7 @@ public class Test {
                 "Get at index 2 from strings: " + listString.get(2),
                 "Size of integers: " + listInt.size(),
                 "Last element D on index: " + listString.last("D"),
-                "First element 1 on index:   " + listInt.first(1),
+                "First element 1 on index: " + listInt.first(1),
                 "Shuffled intList: " + listInt.shuffle(),
                 "Shuffled stringList: " + listString.shuffle(),
                 "Sorted intList: " + listInt.sort(new GenComparator<>()),
@@ -41,8 +43,7 @@ public class Test {
                 "");
 
         String[] anotherStrings = {"First", "Second", "Third", "First", "Second", "Third", "First", "Second", "Third"};
-        for (String value : anotherStrings) secondStringList.add(value);
-
+        Arrays.stream(anotherStrings).forEach(it -> secondStringList.add(it));
         listString.addAll(secondStringList);
 
         logger.log("Add another list to Strings " + listString,

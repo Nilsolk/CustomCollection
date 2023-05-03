@@ -2,16 +2,15 @@ package service.imlpementation;
 
 import service.SimpleList;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.IntStream;
+
 import static java.lang.System.arraycopy;
+import static java.lang.System.in;
 
 public class SimpleListImpl<T> implements SimpleList<T> {
     private final int DEFAULT = 10;
     Object[] array;
-
 
     public SimpleListImpl() {
         array = new Object[DEFAULT];
@@ -35,15 +34,7 @@ public class SimpleListImpl<T> implements SimpleList<T> {
     }
 
     private int count() {
-        int count = 0;
-        for (Object i : array) {
-            if (i != null) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        return count;
+        return (int) Arrays.stream(array).filter(Objects::nonNull).count();
     }
 
     @Override
@@ -87,45 +78,29 @@ public class SimpleListImpl<T> implements SimpleList<T> {
             toNewList(list.size());
         }
         int count = count();
-        for (int i = 0; i < list.size(); i++) {
-            array[count + i] = list.get(i);
-        }
+        IntStream.range(0, list.size()).forEach(it -> array[it + count] = list.get(it));
     }
 
     @Override
     public int first(T item) {
-        int count = -1;
-        for (int i = 0; i < count(); i++) {
-            if (array[i] == item) {
-                count = i;
-                break;
-            }
-        }
-        return count;
+        return IntStream.range(0, array.length)
+                .filter(it -> array[it] == item)
+                .findFirst()
+                .orElse(-1);
     }
 
     @Override
     public int last(T item) {
-        int count = -1;
-        for (int i = count(); i >= 0; i--) {
-            if (array[i] == item) {
-                count = i;
-                break;
-            }
-        }
-        return count;
+        return IntStream.range(0, count())
+                .map(i -> count() - i - 1)
+                .filter(i -> array[i] == item)
+                .findFirst()
+                .orElse(-1);
     }
 
     @Override
     public boolean contains(T item) {
-        boolean flag = false;
-        for (Object obj : array) {
-            if (obj == item) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
+        return Arrays.stream(array).anyMatch(it -> it == item);
     }
 
     @Override
@@ -154,9 +129,7 @@ public class SimpleListImpl<T> implements SimpleList<T> {
 
     SimpleList<T> cast(Object[] list) {
         SimpleList<T> objects = new SimpleListImpl<>();
-        for (Object obj : list) {
-            objects.add((T) obj);
-        }
+        Arrays.stream(list).forEach(obj -> objects.add((T) obj));
         return objects;
     }
 
