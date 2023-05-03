@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Random;
+import static java.lang.System.arraycopy;
 
 public class SimpleListImpl<T> implements SimpleList<T> {
     private final int DEFAULT = 10;
@@ -29,7 +30,7 @@ public class SimpleListImpl<T> implements SimpleList<T> {
 
     private void toNewList(int length) {
         Object[] array2 = new Object[DEFAULT * 2 + length];
-        System.arraycopy(array, 0, array2, 0, array.length);
+        arraycopy(array, 0, array2, 0, array.length);
         array = array2;
     }
 
@@ -60,8 +61,8 @@ public class SimpleListImpl<T> implements SimpleList<T> {
             throw new NullPointerException();
         }
         Object[] tempArray = new Object[array.length - 1];
-        System.arraycopy(array, 0, tempArray, 0, index);
-        System.arraycopy(array, index + 1, tempArray, index, array.length - index - 1);
+        arraycopy(array, 0, tempArray, 0, index);
+        arraycopy(array, index + 1, tempArray, index, array.length - index - 1);
         array = tempArray;
 
     }
