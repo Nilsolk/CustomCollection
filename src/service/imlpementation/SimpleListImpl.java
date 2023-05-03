@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.lang.System.arraycopy;
-import static java.lang.System.in;
 
 public class SimpleListImpl<T> implements SimpleList<T> {
     private final int DEFAULT = 10;
@@ -112,11 +111,12 @@ public class SimpleListImpl<T> implements SimpleList<T> {
     public SimpleList<T> shuffle() {
         Random random = new Random();
         Object[] temArray = array.clone();
-        for (int i = 0; i < count(); i++) {
+
+        IntStream.range(0, count()).forEach(i -> {
             int first = random.nextInt(0, count());
             int second = random.nextInt(0, count());
             swap(temArray, first, second);
-        }
+        });
 
         return cast(temArray);
     }
