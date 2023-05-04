@@ -5,6 +5,8 @@ import service.SimpleList;
 import service.imlpementation.SimpleListImpl;
 import utils.GenComparator;
 
+import java.util.stream.IntStream;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -205,9 +207,12 @@ public class SimpleListImplTest {
         listString.add("E");
 
         SimpleList<String> shuffledList = listString.shuffle();
-        String str = (String) listString.get(2);
+        long condition = IntStream.range(0, shuffledList.size())
+                .filter(it -> shuffledList.get(it) != listString.get(it)
+                        && shuffledList.contains((String) listString.get(it)))
+                .count();
 
-        assertTrue(shuffledList.contains(str));
+        assertTrue(condition > 0);
 
     }
 }
