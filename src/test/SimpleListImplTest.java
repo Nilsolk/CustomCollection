@@ -6,6 +6,7 @@ import service.imlpementation.SimpleListImpl;
 import utils.GenComparator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SimpleListImplTest {
     private final SimpleList<String> listString = new SimpleListImpl<>();
@@ -193,6 +194,20 @@ public class SimpleListImplTest {
         String excepted = "[A, B, C, D, E]";
 
         assertEquals(excepted, actual);
+    }
+
+    @Test
+    public void shuffle() throws Exception {
+        listString.add("A");
+        listString.add("D");
+        listString.add("C");
+        listString.add("B");
+        listString.add("E");
+
+        SimpleList<String> shuffledList = listString.shuffle();
+        String str = (String) listString.get(2);
+
+        assertTrue(shuffledList.contains(str));
 
     }
 }
