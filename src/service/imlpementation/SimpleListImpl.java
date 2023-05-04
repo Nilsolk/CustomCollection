@@ -59,11 +59,10 @@ public class SimpleListImpl<T> implements SimpleList<T> {
 
     @Override
     public Object get(int index) {
-        if (index < 0) {
+        if (index < 0 || index > array.length) {
             throw new IllegalArgumentException();
-        } else if (index > array.length || array[index] == null) {
-            return -1;
-        } else return array[index];
+        } else return Optional.ofNullable(array[index]).orElse(-1);
+
     }
 
     @Override
@@ -127,7 +126,7 @@ public class SimpleListImpl<T> implements SimpleList<T> {
         arr[j] = tmp;
     }
 
-    SimpleList<T> cast(Object[] list) {
+    private SimpleList<T> cast(Object[] list) {
         SimpleList<T> objects = new SimpleListImpl<>();
         Arrays.stream(list).forEach(obj -> objects.add((T) obj));
         return objects;
